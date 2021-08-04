@@ -19,5 +19,13 @@ body, input, textarea, select, button {
 
 body {
   background: var(--gray-900);
-  color: var(--gray-100);
+}
+
+button, a {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

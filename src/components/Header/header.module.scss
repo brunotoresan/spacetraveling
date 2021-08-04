@@ -1,13 +1,10 @@
 .headerContainer {
-    height: 5rem;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2rem; /* in case of screen with less than 1120px */
 }
 
 .headerContent {
-    margin: 0 auto; /* align horizontally */
-    max-width: 1120px;
-    padding: 0 2rem; /* in case of screen with less than 1120px */
-
-    img {
-        margin-top: 40px;
-    }
+    max-width: 700px;
+    margin: 2.5rem auto 0;
 }
