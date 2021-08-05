@@ -23,6 +23,7 @@
       font-weight: 700;
       line-height: 2.12rem;
       margin-bottom: 0.5rem;
+      transition: color 0.2s;
     }
 
     strong + p {
@@ -31,6 +32,10 @@
       font-weight: 400;
       line-height: 1.36rem;
       margin-bottom: 1.5rem;
+    }
+
+    &:hover strong {
+      color: var(--pink);
     }
   }
 }
