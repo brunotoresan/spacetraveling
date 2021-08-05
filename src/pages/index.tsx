@@ -40,13 +40,19 @@ export default function Home() {
               <strong>Título do post</strong>
               <p>scelerisque in dictum non consectetur a erat nam at lectus urna duis convallis convallis tellus</p>
               <div className={styles.dateAndAuthor}>
-                <time><FiCalendar /> 12 de março de 2021</time>
-                <p><FiUser /> Bruno Toresan</p>
+                <time>
+                  <FiCalendar className={styles.icon}/>
+                  12 de março de 2021
+                </time>
+                <p>
+                  <FiUser className={styles.icon}/>
+                  Bruno Toresan
+                </p>
               </div>
             </a>
 
             <button className={styles.loadMoreButton}>
-              Subscribe now
+              Carregar mais posts
             </button>                                                                                                                                                
           </div>
       </div>
