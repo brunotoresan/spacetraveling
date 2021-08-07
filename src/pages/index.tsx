@@ -60,9 +60,11 @@ export default function Home({ postsPagination }: HomeProps) {
               )
             }) }
 
-            <button className={styles.loadMoreButton}>
-              Carregar mais posts
-            </button>                                                                                                                                                
+            {postsPagination.next_page &&
+              <button className={styles.loadMoreButton}>
+                Carregar mais posts
+              </button>                                                                                                                                                
+            }
           </div>
       </div>
     </>
@@ -101,7 +103,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       postsPagination: {
-        next_page: 'AAAAAAAAAAAAAAAAAAA',
+        next_page: postsResponse.next_page,
         results: posts 
       }
     }
