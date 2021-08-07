@@ -59,14 +59,14 @@ function formatPosts(postResponse: ApiSearchResponse): Post[] {
 export default function Home({ postsPagination }: HomeProps) {
 
   const [posts, setPosts] = useState<Post[]>(postsPagination.results)
-  const [nextPage, setNextPage] = useState<string>(postsPagination.next_page)
+  const [nextPage, setNextPage] = useState(postsPagination.next_page)
 
-  async function handleLoadMorePosts(next_page: string) {
-    await fetch(next_page)
+  async function handleLoadMorePosts() {
+    await fetch(nextPage)
           .then(response => response.json())
-          .then(response => { 
-            setPosts(posts.concat(formatPosts(response)))
+          .then(response => {
             setNextPage(response.next_page)
+            setPosts(posts.concat(formatPosts(response)))
           })
   }
 
@@ -80,7 +80,7 @@ export default function Home({ postsPagination }: HomeProps) {
           <div className={styles.posts}>
               { posts.map(post => {
                 return (
-                  <Link key={post.uid} href={`posts/${post.uid}`}>
+                  <Link key={post.uid} href={`/posts/${post.uid}`}>
                     <a>
                       <strong>{post.data.title}</strong>
                       <p>{post.data.subtitle}</p>
@@ -102,7 +102,7 @@ export default function Home({ postsPagination }: HomeProps) {
               {nextPage &&
                 <button 
                   className={styles.loadMoreButton}
-                  onClick={() => handleLoadMorePosts(postsPagination.next_page)}>
+                  onClick={handleLoadMorePosts}>
                   Carregar mais posts
                 </button>                                                                                                                                                
               }
@@ -120,7 +120,7 @@ export const getStaticProps: GetStaticProps = async () => {
     Prismic.predicates.at('document.type', 'posts')
   ], {
     fetch: ['posts.title', 'posts.subtitle', 'posts.author', 'posts.content'],
-    pageSize: 3
+    pageSize: 1
   })
 
   return {
