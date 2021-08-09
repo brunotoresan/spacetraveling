@@ -1,13 +1,18 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
+import Head from 'next/head'
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client'
 import { formatDate } from '../commonFunctions'
 import { RichText } from 'prismic-dom';
+import { useRouter } from 'next/router';
+import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
+import { Fragment } from 'react'
 
 interface Post {
+  slug: string;
   first_publication_date: string | null;
   data: {
     title: string;
@@ -17,9 +22,7 @@ interface Post {
     author: string;
     content: {
       heading: string;
-      body: {
-        text: string;
-      }[];
+      body: string
     }[];
   };
 }
@@ -28,9 +31,47 @@ interface PostProps {
   post: Post;
 }
 
-export default function Post() {
-  return(
-    <h1>Hello World</h1>
+export default function Post({post}: PostProps) {
+
+  const router = useRouter()
+
+  if (router.isFallback) {
+    return <div>Carregando...</div>
+  }
+
+  return (
+    <>
+      <Head>
+        <title>{post.slug} | spacetraveling</title>
+      </Head>
+
+      <img src={post.data.banner.url} />
+      <h1>{post.data.title}</h1>
+      <div className={styles.dateAndAuthor}>
+        <time>
+          <FiCalendar className={styles.icon}/>
+          {post.first_publication_date}
+        </time>
+        <p>
+          <FiUser className={styles.icon}/>
+          {post.data.author}
+        </p>
+        <p>
+          <FiClock className={styles.icon}/>
+          4min
+        </p>
+      </div>
+      <article>
+        { post.data.content.map(content => (
+          <Fragment key={content.heading}>
+            <h2>{content.heading}</h2>
+            <div
+              dangerouslySetInnerHTML={{ __html: content.body }} 
+            />
+          </ Fragment>
+        ))}
+      </article>
+    </>
   )
 }
 
@@ -64,6 +105,7 @@ export const getStaticProps = async context => {
   }))
 
   const post = {
+    slug,
     first_publication_date: formatDate(response.first_publication_date),
     data: {
       title: response.data.title,

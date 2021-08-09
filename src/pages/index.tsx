@@ -65,7 +65,7 @@ export default function Home({ postsPagination }: HomeProps) {
           <title>Home | spacetraveling</title>
         </Head>
 
-        <div className={styles.container}>
+        <main className={styles.container}>
           <div className={styles.posts}>
               { posts.map(post => {
                 return (
@@ -96,7 +96,7 @@ export default function Home({ postsPagination }: HomeProps) {
                 </button>                                                                                                                                                
               }
             </div>
-        </div>
+        </main>
       </>
     )
 }
