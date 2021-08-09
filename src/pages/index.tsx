@@ -7,8 +7,7 @@ import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { RichText } from 'prismic-dom';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import { formatDate } from './commonFunctions'
 import ApiSearchResponse from '@prismicio/client/types/ApiSearchResponse';
 import { useState } from 'react'
 
@@ -29,16 +28,6 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
-}
-
-function formatDate(date: string): string{
-  return format(
-    new Date(date),
-    "dd MMM yyyy",
-    {
-      locale: ptBR,
-    }
-  ).replace(/\s[a-z]/g, char => char.toUpperCase())
 }
 
 function formatPosts(postResponse: ApiSearchResponse): Post[] {
