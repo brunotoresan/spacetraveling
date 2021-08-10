@@ -7,6 +7,7 @@ import { formatDate } from '../commonFunctions'
 import { RichText } from 'prismic-dom';
 import { useRouter } from 'next/router';
 import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
+import postStyles from '../../styles/post.module.scss';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import { Fragment } from 'react'
@@ -45,32 +46,37 @@ export default function Post({post}: PostProps) {
         <title>{post.slug} | spacetraveling</title>
       </Head>
 
-      <img src={post.data.banner.url} />
-      <h1>{post.data.title}</h1>
-      <div className={styles.dateAndAuthor}>
-        <time>
-          <FiCalendar className={styles.icon}/>
-          {post.first_publication_date}
-        </time>
-        <p>
-          <FiUser className={styles.icon}/>
-          {post.data.author}
-        </p>
-        <p>
-          <FiClock className={styles.icon}/>
-          4min
-        </p>
-      </div>
-      <article>
-        { post.data.content.map(content => (
-          <Fragment key={content.heading}>
-            <h2>{content.heading}</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: content.body }} 
-            />
-          </ Fragment>
-        ))}
-      </article>
+      <img className={styles.bannerImg} src={post.data.banner.url} />
+      <main className={styles.container}>
+        <article className={styles.post}>
+          <h1 className={styles.postTitle}>{post.data.title}</h1>
+          <div className={styles.dateAuthorAndReadTime}>
+            <time>
+              <FiCalendar className={commonStyles.icon}/>
+              {post.first_publication_date}
+            </time>
+            <p className={styles.author}>
+              <FiUser className={commonStyles.icon}/>
+              {post.data.author}
+            </p>
+            <p>
+              <FiClock className={commonStyles.icon}/>
+              4min
+            </p>
+          </div>
+          <section>
+            { post.data.content.map(content => (
+              <Fragment key={content.heading}>
+                <h2 className={styles.contentTitle}>{content.heading}</h2>
+                <div
+                  className={styles.contentBody}
+                  dangerouslySetInnerHTML={{ __html: content.body }} 
+                />
+              </ Fragment>
+            ))}
+          </section>
+        </article>
+      </main>
     </>
   )
 }

@@ -1,1 +1,35 @@
-// TODO
+.bannerImg {
+  margin-top: 2.5rem;
+  width: 100%;
+  object-fit: contain;
+}
+
+.post {
+  max-width: 700px;
+  margin: 4rem auto 0
+}
+
+.postTitle {
+  color: var(--gray-100);
+  font-weight: 700;
+  font-size: 48px;
+}
+
+.dateAuthorAndReadTime {
+  color: var(--gray-500);
+  margin-top: 1.5rem;
+  display: flex;
+
+  .author {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}
+
+.contentTitle {
+  color: var(--gray-100);
+}
+
+.contentBody {
+  color: var(--gray-300);
+}

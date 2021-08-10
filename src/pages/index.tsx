@@ -65,7 +65,7 @@ export default function Home({ postsPagination }: HomeProps) {
           <title>Home | spacetraveling</title>
         </Head>
 
-        <main className={styles.container}>
+        <main className={commonStyles.container}>
           <div className={styles.posts}>
               { posts.map(post => {
                 return (
@@ -75,11 +75,11 @@ export default function Home({ postsPagination }: HomeProps) {
                       <p>{post.data.subtitle}</p>
                       <div className={styles.dateAndAuthor}>
                         <time>
-                          <FiCalendar className={styles.icon}/>
+                          <FiCalendar className={commonStyles.icon}/>
                           {post.first_publication_date}
                         </time>
                         <p>
-                          <FiUser className={styles.icon}/>
+                          <FiUser className={commonStyles.icon}/>
                           {post.data.author}
                         </p>
                       </div>
