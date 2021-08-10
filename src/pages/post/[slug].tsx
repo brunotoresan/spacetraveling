@@ -3,11 +3,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head'
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client'
-import { formatDate } from '../commonFunctions'
+import { formatDate, formatEstimatedReadTime } from '../formatFunctions'
 import { RichText } from 'prismic-dom';
 import { useRouter } from 'next/router';
 import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
-import postStyles from '../../styles/post.module.scss';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import { Fragment } from 'react'
@@ -15,6 +14,7 @@ import { Fragment } from 'react'
 interface Post {
   slug: string;
   first_publication_date: string | null;
+  estimated_read_time: string;
   data: {
     title: string;
     banner: {
@@ -37,7 +37,7 @@ export default function Post({post}: PostProps) {
   const router = useRouter()
 
   if (router.isFallback) {
-    return <div>Carregando...</div>
+    return <div className={styles.loading}>Carregando...</div>
   }
 
   return (
@@ -61,7 +61,7 @@ export default function Post({post}: PostProps) {
             </p>
             <p>
               <FiClock className={commonStyles.icon}/>
-              4min
+              {post.estimated_read_time}
             </p>
           </div>
           <section>
@@ -113,6 +113,7 @@ export const getStaticProps = async context => {
   const post = {
     slug,
     first_publication_date: formatDate(response.first_publication_date),
+    estimated_read_time: formatEstimatedReadTime(content),
     data: {
       title: response.data.title,
       banner: {

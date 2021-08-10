@@ -7,7 +7,7 @@ import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { RichText } from 'prismic-dom';
-import { formatDate } from './commonFunctions'
+import { formatDate } from './formatFunctions'
 import ApiSearchResponse from '@prismicio/client/types/ApiSearchResponse';
 import { useState } from 'react'
 
