@@ -38,7 +38,7 @@ function formatPosts(postResponse: ApiSearchResponse): Post[] {
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
-        author: RichText.asText(post.data.author)
+        author: post.data.author
       }
     }
   })

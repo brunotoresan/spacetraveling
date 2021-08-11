@@ -119,7 +119,7 @@ export const getStaticProps = async context => {
       banner: {
         url: response.data.banner.url,
       },
-      author: RichText.asText(response.data.author),
+      author: response.data.author,
       content
     }
   }

@@ -34,7 +34,8 @@ const mockedQueryReturn = {
   results: [
     {
       uid: 'como-utilizar-hooks',
-      first_publication_date: '2021-03-15T19:25:28+0000',
+      // first_publication_date: '2021-03-15T19:25:28+0000',
+      first_publication_date: '15 mar 2021',      
       data: {
         title: 'Como utilizar Hooks',
         subtitle: 'Pensando em sincronização em vez de ciclos de vida',
@@ -43,11 +44,11 @@ const mockedQueryReturn = {
     },
     {
       uid: 'criando-um-app-cra-do-zero',
-      first_publication_date: '2021-03-25T19:27:35+0000',
+      // first_publication_date: '2021-03-25T19:27:35+0000',
+      first_publication_date: '15 mar 2021',      
       data: {
         title: 'Criando um app CRA do zero',
-        subtitle:
-          'Tudo sobre como criar a sua primeira aplicação utilizando Create React App',
+        subtitle: 'Tudo sobre como criar a sua primeira aplicação utilizando Create React App',
         author: 'Danilo Vieira',
       },
     },

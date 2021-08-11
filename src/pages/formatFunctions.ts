@@ -7,13 +7,7 @@ interface PostContent {
 }
 
 export function formatDate(date: string): string {
-    return format(
-      new Date(date),
-      "dd MMM yyyy",
-      {
-        locale: ptBR,
-      }
-    ).replace(/\s[a-z]/g, char => char.toUpperCase())
+    return format(new Date(date), "dd MMM yyyy", { locale: ptBR })
 }
 
 export function formatEstimatedReadTime(content: PostContent[]): string {
