@@ -43,7 +43,7 @@ const mockedQueryReturn = {
     },
     {
       uid: 'criando-um-app-cra-do-zero',
-      first_publication_date: '15 mar 2021',      
+      first_publication_date: '25 mar 2021',      
       data: {
         title: 'Criando um app CRA do zero',
         subtitle: 'Tudo sobre como criar a sua primeira aplicação utilizando Create React App',
@@ -139,7 +139,7 @@ describe('Home', () => {
     screen.getByText(
       'Tudo sobre como criar a sua primeira aplicação utilizando Create React App'
     );
-    screen.getByText('15 mar 2021');
+    screen.getByText('25 mar 2021');
     screen.getByText('Danilo Vieira');
   });
 
