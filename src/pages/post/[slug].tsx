@@ -12,7 +12,6 @@ import styles from './post.module.scss';
 import { Fragment } from 'react'
 
 interface Post {
-  slug: string;
   first_publication_date: string | null;
   estimated_read_time: string;
   data: {
@@ -43,7 +42,7 @@ export default function Post({post}: PostProps) {
   return (
     <>
       <Head>
-        <title>{post.slug} | spacetraveling</title>
+        <title>{post.data.title} | spacetraveling</title>
       </Head>
 
       <img className={styles.bannerImg} src={post.data.banner.url} />
@@ -82,7 +81,7 @@ export default function Post({post}: PostProps) {
 }
 
 // https://stackoverflow.com/questions/67787456/what-is-the-difference-between-fallback-false-vs-true-vs-blocking-of-getstaticpa?noredirect=1
-export const getStaticPaths = async () => {
+export const getStaticPaths : GetStaticPaths = async () => {
   const prismic = getPrismicClient();
   const posts = await prismic.query([
     Prismic.Predicates.at('document.type', 'posts')], {
@@ -99,7 +98,7 @@ export const getStaticPaths = async () => {
   }
 };
 
-export const getStaticProps = async context => {
+export const getStaticProps : GetStaticProps<PostProps> = async context => {
   const prismic = getPrismicClient();
   const { slug } =  context.params
 
@@ -111,7 +110,6 @@ export const getStaticProps = async context => {
   }))
 
   const post = {
-    slug,
     first_publication_date: formatDate(response.first_publication_date),
     estimated_read_time: formatEstimatedReadTime(content),
     data: {

@@ -9,6 +9,7 @@ import { ParsedUrlQuery, parse } from 'querystring';
 import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
 import Post, { getStaticProps, getStaticPaths } from '../../pages/post/[slug]';
+import { RichText } from 'prismic-dom';
 
 interface Post {
   first_publication_date: string | null;
@@ -45,19 +46,18 @@ const mockedQueryReturn = {
 };
 
 const mockedGetByUIDReturn = {
-  uid: 'como-utilizar-hooks',
-  first_publication_date: '2021-03-25T19:25:28+0000',
+  first_publication_date: '25 mar 2021',
+  estimated_read_time: "4 min",
   data: {
     title: 'Como utilizar Hooks',
-    subtitle: 'Pensando em sincronização em vez de ciclos de vida',
-    author: 'Joseph Oliveira',
     banner: {
       url:
-        'https://images.prismic.io/criando-projeto-do-zero/95494d57-eee2-4adb-9883-befa9829abca_christopher-gower-m_HRfLhgABo-unsplash.jpg?auto=compress,format',
+      'https://images.prismic.io/criando-projeto-do-zero/95494d57-eee2-4adb-9883-befa9829abca_christopher-gower-m_HRfLhgABo-unsplash.jpg?auto=compress,format',
     },
+    author: 'Joseph Oliveira',
     content: [
       {
-        body: [
+        body: RichText.asHtml([
           {
             type: 'paragraph',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -75,11 +75,11 @@ const mockedGetByUIDReturn = {
               'Ut venenatis mauris vel libero pretium, et pretium ligula faucibus. Morbi nibh felis, elementum a posuere et, vulputate et erat. Nam venenatis.',
             spans: [],
           },
-        ],
+        ]),
         heading: 'Proin et varius',
       },
       {
-        body: [
+        body: RichText.asHtml([
           {
             type: 'paragraph',
             text:
@@ -178,7 +178,7 @@ const mockedGetByUIDReturn = {
               },
             ],
           },
-        ],
+        ]),
         heading: 'Cras laoreet mi',
       },
     ],
