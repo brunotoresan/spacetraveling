@@ -86,7 +86,7 @@ export const getStaticPaths : GetStaticPaths = async () => {
   const posts = await prismic.query([
     Prismic.Predicates.at('document.type', 'posts')], {
       pageSize: 2
-    });
+  });
   
   const preRenderedPaths = posts.results.map(post => ({
       params: { slug: post.uid }
@@ -98,12 +98,12 @@ export const getStaticPaths : GetStaticPaths = async () => {
   }
 };
 
-export const getStaticProps : GetStaticProps<PostProps> = async context => {
+export const getStaticProps : GetStaticProps = async context => {
   const prismic = getPrismicClient();
   const { slug } =  context.params
 
   const response = await prismic.getByUID('posts', String(slug), {});
-  
+  console.log(JSON.stringify(response.data.content, null, 2))  
   const content = response.data.content.map(content => ({
     heading: content.heading,
     body: RichText.asHtml(content.body)
