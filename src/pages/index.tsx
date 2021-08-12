@@ -34,7 +34,7 @@ function formatPosts(postResponse: ApiSearchResponse): Post[] {
   const posts = postResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: formatDate(post.first_publication_date),
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
@@ -76,7 +76,7 @@ export default function Home({ postsPagination }: HomeProps) {
                       <div className={styles.dateAndAuthor}>
                         <time>
                           <FiCalendar className={commonStyles.icon}/>
-                          {post.first_publication_date}
+                          {formatDate(post.first_publication_date)}
                         </time>
                         <p>
                           <FiUser className={commonStyles.icon}/>

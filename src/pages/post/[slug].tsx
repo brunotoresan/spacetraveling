@@ -13,7 +13,6 @@ import { Fragment } from 'react'
 
 interface Post {
   first_publication_date: string | null;
-  estimated_read_time: string;
   data: {
     title: string;
     banner: {
@@ -22,7 +21,9 @@ interface Post {
     author: string;
     content: {
       heading: string;
-      body: string
+      body: {
+        text: string;
+      }[];
     }[];
   };
 }
@@ -52,7 +53,7 @@ export default function Post({post}: PostProps) {
           <div className={styles.dateAuthorAndReadTime}>
             <time>
               <FiCalendar className={commonStyles.icon}/>
-              {post.first_publication_date}
+              {formatDate(post.first_publication_date)}
             </time>
             <p className={styles.author}>
               <FiUser className={commonStyles.icon}/>
@@ -60,7 +61,7 @@ export default function Post({post}: PostProps) {
             </p>
             <p>
               <FiClock className={commonStyles.icon}/>
-              {post.estimated_read_time}
+              {formatEstimatedReadTime(post.data.content)}
             </p>
           </div>
           <section>
@@ -69,7 +70,7 @@ export default function Post({post}: PostProps) {
                 <h2 className={styles.contentTitle}>{content.heading}</h2>
                 <div
                   className={styles.contentBody}
-                  dangerouslySetInnerHTML={{ __html: content.body }} 
+                  dangerouslySetInnerHTML={{ __html: RichText.asHtml(content.body) }} 
                 />
               </ Fragment>
             ))}
@@ -103,15 +104,14 @@ export const getStaticProps : GetStaticProps = async context => {
   const { slug } =  context.params
 
   const response = await prismic.getByUID('posts', String(slug), {});
-  console.log(JSON.stringify(response.data.content, null, 2))  
+
   const content = response.data.content.map(content => ({
     heading: content.heading,
-    body: RichText.asHtml(content.body)
+    body: content.body
   }))
 
   const post = {
-    first_publication_date: formatDate(response.first_publication_date),
-    estimated_read_time: formatEstimatedReadTime(content),
+    first_publication_date: response.first_publication_date,
     data: {
       title: response.data.title,
       banner: {

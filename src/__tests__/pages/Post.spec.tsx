@@ -9,7 +9,6 @@ import { ParsedUrlQuery, parse } from 'querystring';
 import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
 import Post, { getStaticProps, getStaticPaths } from '../../pages/post/[slug]';
-import { RichText } from 'prismic-dom';
 
 interface Post {
   first_publication_date: string | null;
@@ -46,18 +45,19 @@ const mockedQueryReturn = {
 };
 
 const mockedGetByUIDReturn = {
-  first_publication_date: '25 mar 2021',
-  estimated_read_time: "4 min",
+  uid: 'como-utilizar-hooks',
+  first_publication_date: '2021-03-25T19:25:28+0000',
   data: {
     title: 'Como utilizar Hooks',
+    subtitle: 'Pensando em sincronização em vez de ciclos de vida',
+    author: 'Joseph Oliveira',
     banner: {
       url:
-      'https://images.prismic.io/criando-projeto-do-zero/95494d57-eee2-4adb-9883-befa9829abca_christopher-gower-m_HRfLhgABo-unsplash.jpg?auto=compress,format',
+        'https://images.prismic.io/criando-projeto-do-zero/95494d57-eee2-4adb-9883-befa9829abca_christopher-gower-m_HRfLhgABo-unsplash.jpg?auto=compress,format',
     },
-    author: 'Joseph Oliveira',
     content: [
       {
-        body: RichText.asHtml([
+        body: [
           {
             type: 'paragraph',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -75,11 +75,11 @@ const mockedGetByUIDReturn = {
               'Ut venenatis mauris vel libero pretium, et pretium ligula faucibus. Morbi nibh felis, elementum a posuere et, vulputate et erat. Nam venenatis.',
             spans: [],
           },
-        ]),
+        ],
         heading: 'Proin et varius',
       },
       {
-        body: RichText.asHtml([
+        body: [
           {
             type: 'paragraph',
             text:
@@ -178,7 +178,7 @@ const mockedGetByUIDReturn = {
               },
             ],
           },
-        ]),
+        ],
         heading: 'Cras laoreet mi',
       },
     ],
@@ -230,6 +230,20 @@ describe('Post', () => {
     expect(response.paths).toEqual(getStaticPathsReturn);
   });
 
+  it('should be able to return prismic post document using getStaticProps', async () => {
+    const routeParam = parse('como-utilizar-hooks');
+
+    const postReturn = mockedGetByUIDReturn;
+    const getStaticPropsContext: GetStaticPropsContext<ParsedUrlQuery> = {
+      params: routeParam,
+    };
+
+    const response = (await getStaticProps(
+      getStaticPropsContext
+    )) as GetStaticPropsResult;
+
+    expect(response.props.post).toEqual(expect.objectContaining(postReturn));
+  });
 
   it('should be able to render post document info', () => {
     const postProps = mockedGetByUIDReturn;
