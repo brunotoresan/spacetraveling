@@ -57,6 +57,10 @@
   color: var(--gray-100);
   font-weight: 700;
   font-size: 3rem;
-  text-align: center;
-  vertical-align: middle;
+  /* https://stackoverflow.com/questions/14123999/center-a-div-horizontally-and-vertically */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }

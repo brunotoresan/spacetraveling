@@ -10,6 +10,7 @@ import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import { Fragment } from 'react'
+import { useEffect } from 'react'
 
 interface Post {
   first_publication_date: string | null;
@@ -77,6 +78,22 @@ export default function Post({post}: PostProps) {
               </ Fragment>
             ))}
           </section>
+          <section
+            ref={elem => {
+              if (!elem) {
+                return;
+              }
+              const scriptElem = document.createElement("script");
+              scriptElem.src = "https://utteranc.es/client.js";
+              scriptElem.async = true;
+              scriptElem.crossOrigin = "anonymous";
+              scriptElem.setAttribute("repo", "brunotoresan/spacetraveling");
+              scriptElem.setAttribute("issue-term", "pathname");
+              scriptElem.setAttribute("label", "blog-comment");
+              scriptElem.setAttribute("theme", "github-light");
+              elem.appendChild(scriptElem);
+            }}
+          />         
         </article>
       </main>
     </>
