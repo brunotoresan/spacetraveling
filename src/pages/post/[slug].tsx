@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import Head from 'next/head'
+import Link from 'next/link'
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client'
 import { formatDate, formatEstimatedReadTime } from '../formatFunctions'
@@ -33,9 +34,10 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  preview: boolean
 }
 
-export default function Post({post}: PostProps) {
+export default function Post({post, preview}: PostProps) {
 
   const router = useRouter()
 
@@ -78,7 +80,16 @@ export default function Post({post}: PostProps) {
               </ Fragment>
             ))}
           </section>
-          <Comments />  
+          {preview && (
+            <aside>
+              <Link href="/api/exit-preview">
+                <a className={commonStyles.exitPreview}>
+                  Sair do modo Preview
+                </a>
+              </Link>
+            </aside>
+          )}
+          <Comments />
         </article>
       </main>
     </>
@@ -103,11 +114,18 @@ export const getStaticPaths : GetStaticPaths = async () => {
   }
 };
 
-export const getStaticProps : GetStaticProps = async context => {
+// preview: https://prismic.io/docs/technologies/previews-nextjs
+export const getStaticProps : GetStaticProps = async ({
+  preview=false,
+  previewData,
+  params 
+}) => {
   const prismic = getPrismicClient();
-  const { slug } =  context.params
+  const { slug } = params
 
-  const response = await prismic.getByUID('posts', String(slug), {});
+  const response = await prismic.getByUID('posts', String(slug), {
+    ref: previewData?.ref ?? null,
+  });
 
   const content = response.data.content.map(content => ({
     heading: content.heading,
@@ -130,7 +148,8 @@ export const getStaticProps : GetStaticProps = async context => {
 
   return {
     props: {
-      post
+      post,
+      preview
     }
   }
 };

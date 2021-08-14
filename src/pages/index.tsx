@@ -27,6 +27,7 @@ interface PostPagination {
 
 interface HomeProps {
   postsPagination: PostPagination;
+  preview: boolean
 }
 
 function formatPosts(postResponse: ApiSearchResponse): Post[] {
@@ -44,7 +45,7 @@ function formatPosts(postResponse: ApiSearchResponse): Post[] {
   return posts
 }
 
-export default function Home({ postsPagination }: HomeProps) {
+export default function Home({ postsPagination, preview }: HomeProps) {
 
   const [posts, setPosts] = useState<Post[]>(postsPagination.results)
   const [nextPage, setNextPage] = useState(postsPagination.next_page)
@@ -94,13 +95,26 @@ export default function Home({ postsPagination }: HomeProps) {
                   Carregar mais posts
                 </button>                                                                                                                                                
               }
+              {preview && (
+                <aside>
+                  <Link href="/api/exit-preview">
+                    <a className={commonStyles.exitPreview}>
+                      Sair do modo Preview
+                    </a>
+                  </Link>
+                </aside>
+              )}
             </div>
         </main>
       </>
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+// preview: https://prismic.io/docs/technologies/previews-nextjs
+export const getStaticProps: GetStaticProps<HomeProps> = async ({
+  preview=false,
+  previewData
+}) => {
 
   const prismic = getPrismicClient();
 
@@ -108,7 +122,8 @@ export const getStaticProps: GetStaticProps = async () => {
     Prismic.predicates.at('document.type', 'posts')
   ], {
     fetch: ['posts.title', 'posts.subtitle', 'posts.author', 'posts.content'],
-    pageSize: 1
+    pageSize: 1,
+    ref: previewData?.ref ?? null,
   })
 
   return {
@@ -116,7 +131,8 @@ export const getStaticProps: GetStaticProps = async () => {
       postsPagination: {
         next_page: postsResponse.next_page,
         results: formatPosts(postsResponse)
-      }
+      },
+      preview
     }
   }
 };
