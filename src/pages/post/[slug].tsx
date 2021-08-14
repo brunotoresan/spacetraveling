@@ -80,16 +80,14 @@ export default function Post({post, preview}: PostProps) {
               </ Fragment>
             ))}
           </section>
+          <Comments />
           {preview && (
-            <aside>
+            <aside className={commonStyles.exitPreview}>
               <Link href="/api/exit-preview">
-                <a className={commonStyles.exitPreview}>
-                  Sair do modo Preview
-                </a>
+                <a>Sair do modo Preview</a>
               </Link>
             </aside>
           )}
-          <Comments />
         </article>
       </main>
     </>

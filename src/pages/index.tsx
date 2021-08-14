@@ -96,11 +96,9 @@ export default function Home({ postsPagination, preview }: HomeProps) {
                 </button>                                                                                                                                                
               }
               {preview && (
-                <aside>
+                <aside className={commonStyles.exitPreview}>
                   <Link href="/api/exit-preview">
-                    <a className={commonStyles.exitPreview}>
-                      Sair do modo Preview
-                    </a>
+                    <a>Sair do modo Preview</a>
                   </Link>
                 </aside>
               )}
