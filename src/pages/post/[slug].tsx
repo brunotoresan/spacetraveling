@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client'
-import { formatDate, formatEstimatedReadTime } from '../formatFunctions'
+import { formatDate, formatEstimatedReadTime, formatEditDate } from '../formatFunctions'
 import { RichText } from 'prismic-dom';
 import { useRouter } from 'next/router';
 import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
@@ -15,6 +15,7 @@ import Comments from '../../components/Comments'
 
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null;
   uid: string
   data: {
     title: string;
@@ -68,6 +69,9 @@ export default function Post({post, preview}: PostProps) {
               <FiClock className={commonStyles.icon}/>
               {formatEstimatedReadTime(post.data.content)}
             </p>
+          </div>
+          <div className={styles.editionPostData}>
+            {post.last_publication_date}
           </div>
           <section>
             { post.data.content.map(content => (
@@ -133,6 +137,7 @@ export const getStaticProps : GetStaticProps = async ({
   const post = {
     uid: response.uid,
     first_publication_date: response.first_publication_date,
+    last_publication_date: formatEditDate(response.last_publication_date),
     data: {
       title: response.data.title,
       subtitle: response.data.subtitle,
