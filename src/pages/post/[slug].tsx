@@ -30,6 +30,14 @@ interface Post {
       body: string
     }[];
   };
+  previousPost: {
+    uid: string;
+    title: string
+  };
+  nextPost: {
+    uid: string;
+    title: string
+  }
 }
 
 interface PostProps {
@@ -83,6 +91,30 @@ export default function Post({post, preview}: PostProps) {
               </ Fragment>
             ))}
           </section>
+          <nav className={styles.otherPostsContainer}>
+            <div className={styles.previousAndNextPosts}>
+              <Link href={post.previousPost.uid}>
+                <a>
+                  <p className={styles.otherPostTitle}>
+                    {post.previousPost.title}
+                  </p>
+                  <p className={styles.otherPost}>
+                    Post anterior
+                  </p>
+                </a>
+              </Link>
+              <Link href={post.nextPost.uid}>
+                <a>
+                  <p className={styles.otherPostTitle}>
+                    {post.nextPost.title}
+                  </p>
+                  <p className={styles.otherPost}>
+                    Próximo post
+                  </p>
+                </a>
+              </Link>          
+            </div>
+          </nav>
           <Comments />
           {preview && (
             <aside className={commonStyles.exitPreview}>
@@ -128,6 +160,26 @@ export const getStaticProps : GetStaticProps = async ({
     ref: previewData?.ref ?? null,
   });
 
+  const previousPost = await prismic.query([
+    Prismic.predicates.at('document.type', 'posts')
+  ], {
+    fetch: ['posts.title'],
+    pageSize: 1,
+    after: response.id,
+    orderings: '[document.first_publication_date desc]',
+    ref: previewData?.ref ?? null,
+  })
+
+  const nextPost = await prismic.query([
+    Prismic.predicates.at('document.type', 'posts')
+  ], {
+    fetch: ['posts.title'],
+    pageSize: 1,
+    after: response.id,
+    orderings: '[document.first_publication_date]',
+    ref: previewData?.ref ?? null,
+  })  
+
   const content = response.data.content.map(content => ({
     heading: content.heading,
     body: RichText.asHtml(content.body)
@@ -146,6 +198,14 @@ export const getStaticProps : GetStaticProps = async ({
       },
       author: response.data.author,
       content
+    },
+    previousPost: {
+      uid: (previousPost.results.length > 0) ? previousPost.results[0].uid : '/',
+      title: (previousPost.results.length > 0) ? previousPost.results[0].data.title : 'Home page'
+    },
+    nextPost: {
+      uid: (nextPost.results.length > 0) ? nextPost.results[0].uid : '/',
+      title: (nextPost.results.length > 0) ? nextPost.results[0].data.title : 'Home page'
     }
   }
 

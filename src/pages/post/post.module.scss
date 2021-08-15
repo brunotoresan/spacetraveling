@@ -66,6 +66,26 @@
   }
 }
 
+.previousAndNextPosts {
+  display: flex;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  justify-content: space-between;
+
+  .otherPostTitle {
+    font-weight: 400;
+    font-size: 1.125rem;
+    color: var(--gray-100);
+  }
+
+  .otherPost {
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--pink);
+  }
+}
+
 .loading {
   color: var(--gray-100);
   font-weight: 700;
