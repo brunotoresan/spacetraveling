@@ -11,7 +11,7 @@
 </p>
 
 ## 🔥 About the project
-This is a public blog with paginate posts. In this project I practiced a lot of important concepts including: 
+This is a public blog with paginated posts. In this project I practiced a lot of important concepts including: 
 - Developing a **JAM Stack app** (Javascript, Api, and Markup)
 - Using the `Next.JS` framework in order to use both **SSR** (Server Side Rendering) and **SSG** (Static Site Generation)
 - Using **Prismic CMS** in order to store and edit the app's post
