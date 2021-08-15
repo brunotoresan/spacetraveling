@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="70%" src="https://imgur.com/4zTfwat.png" alt="Project Image"/>
+    <img width="70%" src="https://imgur.com/YaAMAej.png" alt="Project Image"/>
 </p>
 
 <h1 align="center">spacetraveling</h1>
