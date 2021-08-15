@@ -16,6 +16,7 @@ import Comments from '../../components/Comments'
 interface Post {
   first_publication_date: string | null;
   last_publication_date: string | null;
+  estimatedReadTime: string;
   uid: string
   data: {
     title: string;
@@ -26,9 +27,7 @@ interface Post {
     author: string;
     content: {
       heading: string;
-      body: {
-        text: string;
-      }[];
+      body: string
     }[];
   };
 }
@@ -59,7 +58,7 @@ export default function Post({post, preview}: PostProps) {
           <div className={styles.dateAuthorAndReadTime}>
             <time>
               <FiCalendar className={commonStyles.icon}/>
-              {formatDate(post.first_publication_date)}
+              {post.first_publication_date}
             </time>
             <p className={styles.author}>
               <FiUser className={commonStyles.icon}/>
@@ -67,19 +66,19 @@ export default function Post({post, preview}: PostProps) {
             </p>
             <p>
               <FiClock className={commonStyles.icon}/>
-              {formatEstimatedReadTime(post.data.content)}
+              {post.estimatedReadTime}
             </p>
           </div>
           <div className={styles.editionPostData}>
             {post.last_publication_date}
           </div>
-          <section>
+          <section className={styles.postContent}>
             { post.data.content.map(content => (
               <Fragment key={content.heading}>
                 <h2 className={styles.contentTitle}>{content.heading}</h2>
                 <div
                   className={styles.contentBody}
-                  dangerouslySetInnerHTML={{ __html: RichText.asHtml(content.body) }} 
+                  dangerouslySetInnerHTML={{ __html: content.body }} 
                 />
               </ Fragment>
             ))}
@@ -131,13 +130,14 @@ export const getStaticProps : GetStaticProps = async ({
 
   const content = response.data.content.map(content => ({
     heading: content.heading,
-    body: content.body
+    body: RichText.asHtml(content.body)
   }))
 
   const post = {
     uid: response.uid,
-    first_publication_date: response.first_publication_date,
+    first_publication_date: formatDate(response.first_publication_date),
     last_publication_date: formatEditDate(response.last_publication_date),
+    estimatedReadTime: formatEstimatedReadTime(content),
     data: {
       title: response.data.title,
       subtitle: response.data.subtitle,

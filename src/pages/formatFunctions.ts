@@ -4,9 +4,7 @@ import { RichText } from 'prismic-dom';
 
 interface PostContent {
     heading: string;
-    body: {
-      text: string;
-    }[];
+    body: string
   };
 
 export function formatDate(date: string): string {
@@ -22,7 +20,7 @@ export function formatEstimatedReadTime(content: PostContent[]): string {
 
   const totalPostsWords = content.reduce((wordsNumber, postSection) => {
     wordsNumber += postSection.heading.split(' ').length
-    wordsNumber += RichText.asHtml(postSection.body).split(' ').length
+    wordsNumber += postSection.body.split(' ').length
     return wordsNumber
   }, 0)
 

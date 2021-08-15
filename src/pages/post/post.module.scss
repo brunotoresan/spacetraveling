@@ -36,6 +36,11 @@
   color: var(--gray-500);
 }
 
+.postContent {
+  padding-bottom: 2.25rem;
+  border-bottom: 1px solid var(--gray-500);
+}
+
 .contentTitle {
   color: var(--gray-100);
   font-size: 2rem;
